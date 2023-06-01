@@ -7,22 +7,22 @@ import { Navbar, Footer, Sidebar, ThemeSettings } from './Components';
 import { Ecommerce, Orders, Calendar, Employees, Stacked, Pyramid, Customers, Kanban, Line, Area, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor } from './pages';
 import './App.css';
 
-// import { useStateContext } from './contexts/ContextProvider';
+import { useStateContext } from './contexts/ContextProvider';
 
 const App = () => {
-  // const { setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings } = useStateContext();
+  const { setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings } = useStateContext();
 
-  // useEffect(() => {
-  //   const currentThemeColor = localStorage.getItem('colorMode');
-  //   const currentThemeMode = localStorage.getItem('themeMode');
-  //   if (currentThemeColor && currentThemeMode) {
-  //     setCurrentColor(currentThemeColor);
-  //     setCurrentMode(currentThemeMode);
-  //   }
-  // }, []);
-const activeMenu = true;
+  useEffect(() => {
+    const currentThemeColor = localStorage.getItem('colorMode');
+    const currentThemeMode = localStorage.getItem('themeMode');
+    if (currentThemeColor && currentThemeMode) {
+      setCurrentColor(currentThemeColor);
+      setCurrentMode(currentThemeMode);
+    }
+  }, []);
+
   return (
-    <div>
+    <div className={currentMode === 'Dark' ? 'dark' : ''}>
       <BrowserRouter>
         <div className="flex relative dark:bg-main-dark-bg">
           <div className="fixed right-4 bottom-4" style={{ zIndex: '1000' }}>
@@ -31,8 +31,9 @@ const activeMenu = true;
               position="Top"
             >
               <button
-                type="button" 
-                style={{ borderRadius: '50%' }}
+                type="button"
+                onClick={() => setThemeSettings(true)}
+                style={{ background: currentColor, borderRadius: '50%' }}
                 className="text-3xl text-white p-3 hover:drop-shadow-xl hover:bg-light-gray"
               >
                 <FiSettings />
@@ -60,6 +61,7 @@ const activeMenu = true;
               <Navbar />
             </div>
             <div>
+              {themeSettings && (<ThemeSettings />)}
 
               <Routes>
                 {/* dashboard  */}
